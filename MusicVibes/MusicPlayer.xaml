@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MusicVibes.MusicPlayer">
+             x:Class="MusicVibes.MusicPlayer"
+             BackgroundColor="Black"
+             >
     <ContentPage.Content>
         <Grid Margin="0,50,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="6*"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <Image Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0"/>
-            <Slider x:Name="MyMusicSlider" Minimum="0" Maximum="30"/>
-            <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="CenterAndExpand"> 
-            <Button x:Name="Stop" Text="Stop" Clicked="Stop_Clicked"/>
-                <Button x:Name="Play" Text="Play/Pause" Clicked="Play_Clicked"/>
-                <Button x:Name="Next" Text="Next" Clicked="Next_Clicked"/>
+            <Label x:Name="SongName" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" TextColor="White" Grid.Row="1"/>
+            <Slider x:Name="MyMusicSlider" Minimum="0" Maximum="30" Grid.Row="2"/>
+            <StackLayout Grid.Row="3" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
+                <Image x:Name="Previous" Source="button_back" HeightRequest="40" WidthRequest="40">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer />
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image x:Name="Play" Source="button_play" HeightRequest="90" WidthRequest="90">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Play_Clicked" NumberOfTapsRequired="1"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <Image x:Name="Next" Source="button_forward" HeightRequest="40" WidthRequest="40">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Next_Clicked" NumberOfTapsRequired="1"/>
+                    </Image.GestureRecognizers>
+                </Image>
             </StackLayout> 
         </Grid>
     </ContentPage.Content>
