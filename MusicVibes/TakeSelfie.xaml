@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MusicVibes.TakeSelfie"
+             Title="Music Moods"
+             BackgroundColor="#000000"
+             >
+    <Grid Margin="0,50,0,0" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Label Text="Hey take a selfie " HorizontalOptions="CenterAndExpand" Grid.Row="0"/>
+            <Image x:Name="MyPhoto" Grid.Row="1" Aspect="AspectFit"/>
+            <ActivityIndicator x:Name="spinner" IsRunning="True" Grid.Row="2" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40" WidthRequest="40"/>
+        <Button x:Name="Shutter" Text="Take a Photo" BorderColor="White" BorderRadius="4" BorderWidth="3" Grid.Row="3" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Clicked="Shutter_Clicked"/>
+    </Grid>
+</ContentPage>

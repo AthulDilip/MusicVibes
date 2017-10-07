@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MusicVibes.MusicPlayer">
+    <ContentPage.Content>
+        <Grid Margin="0,50,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <Image Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0"/>
+            <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="CenterAndExpand"> 
+            <Button x:Name="Stop" Text="Stop" Clicked="Stop_Clicked"/>
+                <Button x:Name="Play" Text="Play/Pause" Clicked="Play_Clicked"/>
+                <Button x:Name="Next" Text="Next" Clicked="Next_Clicked"/>
+            </StackLayout> 
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
