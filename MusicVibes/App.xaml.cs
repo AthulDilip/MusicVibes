@@ -1,4 +1,9 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Xamarin.Forms;
 
 namespace MusicVibes
 {
@@ -8,7 +13,7 @@ namespace MusicVibes
         {
             InitializeComponent();
 
-            MainPage = new MusicVibesPage();
+            MainPage = new NavigationPage(new TakeSelfie());
         }
 
         protected override void OnStart()
