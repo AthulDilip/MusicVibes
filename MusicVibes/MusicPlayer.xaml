@@ -10,7 +10,7 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Image Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0"/>
-            <Slider x:Name="MyMusicSlider" Minimum="0" Maximum="30"
+            <Slider x:Name="MyMusicSlider" Minimum="0" Maximum="30"/>
             <StackLayout Grid.Row="1" Orientation="Horizontal" VerticalOptions="CenterAndExpand"> 
             <Button x:Name="Stop" Text="Stop" Clicked="Stop_Clicked"/>
                 <Button x:Name="Play" Text="Play/Pause" Clicked="Play_Clicked"/>
