@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MusicVibes.MusicPlayer"
              BackgroundColor="Black"
+            
              >
     <ContentPage.Content>
         <Grid Margin="0,50,0,0">
@@ -12,7 +13,7 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <Image Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0"/>
+            <Image x:Name="AlbumImage" Aspect="Fill" Margin="5" Grid.Row="0"/>
             <Label x:Name="SongName" HorizontalTextAlignment="Center" FontSize="Medium" FontAttributes="Bold" TextColor="White" Grid.Row="1"/>
             <Slider x:Name="MyMusicSlider" Minimum="0" Maximum="30" Grid.Row="2"/>
             <StackLayout Grid.Row="3" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
@@ -21,7 +22,7 @@
                         <TapGestureRecognizer />
                     </Image.GestureRecognizers>
                 </Image>
-                <Image x:Name="Play" Source="button_play" HeightRequest="90" WidthRequest="90">
+                <Image x:Name="Play" Source="button_pause" HeightRequest="90" WidthRequest="90">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="Play_Clicked" NumberOfTapsRequired="1"/>
                     </Image.GestureRecognizers>

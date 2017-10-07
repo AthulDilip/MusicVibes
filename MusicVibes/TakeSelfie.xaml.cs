@@ -19,21 +19,12 @@ namespace MusicVibes
             InitializeComponent();
         }
         MediaFile file;
-        const string CheckEmotion = "Check my Emotion";
-        const string TakePhoto = "Take a Photo";
-        private void Shutter_Clicked(object sender, EventArgs e)
+        private async void Shutter_Clicked(object sender, EventArgs e)
         {
-            switch (Shutter.Text)
-            {
-                case CheckEmotion:
-                    CheckMyEmotion();
-                    break;
-                case TakePhoto:
-                    TakeMyPhoto();
-                    break;
-            }
+            await TakeMyPhoto();
+            await CheckMyEmotion();              
         }
-        async public void TakeMyPhoto()
+        async public Task TakeMyPhoto()
         {
             await CrossMedia.Current.Initialize();
 
@@ -51,11 +42,9 @@ namespace MusicVibes
                 CustomPhotoSize = 40
 
             });
-            Shutter.Text = CheckEmotion;
             if (file == null)
                 return;
             spinner.IsVisible = false;
-            Shutter.Text = CheckEmotion;
             instruction.IsVisible = false;
             MyPhoto.Source = ImageSource.FromStream(() =>
             {
@@ -64,9 +53,8 @@ namespace MusicVibes
             });
 
         }
-        async public void CheckMyEmotion()
+        async public Task CheckMyEmotion()
         {
-            Shutter.Text = TakePhoto;
             if (file == null)
             {
                 await DisplayAlert("Error", "No Image Taken", "Ok");
@@ -85,6 +73,7 @@ namespace MusicVibes
             var Face = result.FirstOrDefault();
             if (Face != null)
             {
+                Shutter.IsVisible = false;
                 var emotion = "Anger: " + Face.Scores.Anger.ToString("0.0")
                         + "\n Contempt:" + Face.Scores.Contempt.ToString("0.0")
                         + "\n Disgust:" + Face.Scores.Disgust.ToString("0.0")
@@ -106,7 +95,7 @@ namespace MusicVibes
 
                 List<string> genreList = MappingService.getGenreFromMood(mydic);
 
-                await DisplayAlert("Your mood", emotion, "OK");
+               // await DisplayAlert("Your mood", emotion, "OK");
                 var Emotracks = await NapsterService.GetEmoTracks(genreList.FirstOrDefault());
                 await Navigation.PushAsync(new MusicPlayer(Emotracks));
             }
@@ -114,7 +103,6 @@ namespace MusicVibes
             {
                 await DisplayAlert("Oops", "No Face Detected!", "OK");
             }
-
         }
     }
 }
