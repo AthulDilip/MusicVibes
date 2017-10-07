@@ -11,6 +11,8 @@ using MusicVibes.Model;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using Plugin.MediaManager.Abstractions.Implementations;
+using Plugin.MediaManager.Abstractions.EventArguments;
 
 namespace MusicVibes
 {
@@ -38,14 +40,29 @@ namespace MusicVibes
             var rnd = new Random();
             RandomTracks = tracks.OrderBy(i => rnd.Next()).ToList();
             trackIndex = 0;
-            CrossMediaManager.Current.Play(RandomTracks[trackIndex].PreviewURL);
+
+            List<MediaFile> MediaFiles = new List<MediaFile>();
+            foreach (var x in RandomTracks)                 MediaFiles.Add(new MediaFile(x.PreviewURL, Plugin.MediaManager.Abstractions.Enums.MediaFileType.Audio, Plugin.MediaManager.Abstractions.Enums.ResourceAvailability.Remote));
+
+            CrossMediaManager.Current.Play(MediaFiles);
+            CrossMediaManager.Current.MediaFileChanged += Current_MediaFileChanged;
             CrossMediaManager.Current.PlayingChanged += Current_PlayingChanged;
+            CrossMediaManager.Current.MediaFinished += Current_MediaFinished;
+        }
+
+        private async void Current_MediaFinished(object sender, Plugin.MediaManager.Abstractions.EventArguments.MediaFinishedEventArgs e)
+        {
+            await CrossMediaManager.Current.PlayNext();
+        }
+
+        void Current_MediaFileChanged(object sender, Plugin.MediaManager.Abstractions.EventArguments.MediaFileChangedEventArgs e)         {
+            var track = RandomTracks.Where(x => x.PreviewURL.Equals(e.File.Url)).FirstOrDefault();
+
         }
 
         private void Current_PlayingChanged(object sender, Plugin.MediaManager.Abstractions.EventArguments.PlayingChangedEventArgs e)
         {
             MyMusicSlider.Value = e.Position.Seconds;
-            Debug.WriteLine("The position is " + e.Position.Seconds );
         }
 
         private async void Stop_Clicked(object sender, EventArgs e)
@@ -55,33 +72,12 @@ namespace MusicVibes
 
         private async void Play_Clicked(object sender, EventArgs e)
         {
-            await CrossMediaManager.Current.Play(RandomTracks[trackIndex].PreviewURL);
+            //await CrossMediaManager.Current.Play(RandomTracks[trackIndex].PreviewURL);
         }
 
         private async void Next_Clicked(object sender, EventArgs e)
         {
-            await CrossMediaManager.Current.Stop();
-            trackIndex = (trackIndex + 1) % 10;
-            await CrossMediaManager.Current.Play(RandomTracks[trackIndex].PreviewURL);
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (object.Equals(storage, value)) return false;
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-
-            return true;
-        }
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var eventHandler = PropertyChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            CrossMediaManager.Current.PlayNext();
         }
     }
 
