@@ -7,19 +7,21 @@
              
              >
     
-    <Grid Margin="0,50,0,0" >
+    <Grid Margin="0,30,0,0" >
+        <Grid Grid.Row="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="7*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="4*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
      
-        <Label Text="Take a Selfie" HorizontalOptions="CenterAndExpand" FontSize="Medium" FontAttributes="Bold" TextColor="White"  Grid.Row="0"/>
+        <Image Source="icon" HorizontalOptions="Center" Grid.Row="0"/>
         <Image x:Name="MyPhoto" Grid.Row="1" Aspect="AspectFit"/>
-        <Label x:Name="instruction" Text="Take a photo to find a song for your mood" FontAttributes="Bold" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center" Grid.Row="1" IsVisible="True" HorizontalOptions="Center" VerticalOptions="Center"/>
-        <ActivityIndicator x:Name="spinner" IsRunning="True" Grid.Row="2" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40" WidthRequest="40"/>
-        <Button x:Name="Shutter" Text="Take a Photo" BorderColor="White" Grid.Row="3" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Clicked="Shutter_Clicked"/>
-       
+        <Label x:Name="instruction" Text="Take a selfie to find a song for your mood" FontAttributes="Bold" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center" Grid.Row="1" IsVisible="True" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Button x:Name="Shutter" Text="Take a Selfie" BorderColor="White" Grid.Row="2" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Clicked="Shutter_Clicked"/>
+        </Grid>
+        <Grid Grid.Row="0" x:Name="spinner" IsVisible="False">
+        <ActivityIndicator  IsRunning="True"  HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="45" WidthRequest="45"/>
+        </Grid>
     </Grid>
 </ContentPage>
