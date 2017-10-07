@@ -102,50 +102,11 @@ namespace MusicVibes
                 mydic.Add("Neutral", Face.Scores.Neutral);
                 mydic.Add("Sadness", Face.Scores.Sadness);
                 mydic.Add("Surprise", Face.Scores.Surprise);
-                double maxVal = mydic.Values.Max();
-                var maxValkey = mydic.Where(x => x.Value.Equals(maxVal)).FirstOrDefault();
-                string MaxEmotion = maxValkey.Key;
 
-                string Mood = CategoryConstValues.Pop;
-                if (MaxEmotion != null)
-                {
-                    if (MaxEmotion == "Anger")
-                    {
-                        Mood = CategoryConstValues.Rap;
-                    }
-                    else if (MaxEmotion == "Contempt")
-                    {
-                        Mood = CategoryConstValues.Rock;
-                    }
-                    else if (MaxEmotion == "Disgust")
-                    {
-                        Mood = CategoryConstValues.Peace;
-                    }
-                    else if (MaxEmotion == "Fear")
-                    {
-                        Mood = CategoryConstValues.Peace;
-                    }
-                    else if (MaxEmotion == "Happiness")
-                    {
-                        Mood = CategoryConstValues.Acoustics;
-                    }
-                    else if (MaxEmotion == "Neutral")
-                    {
-                        Mood = CategoryConstValues.Jazz;
-                    }
-                    else if (MaxEmotion == "Sadness")
-                    {
-                        Mood = CategoryConstValues.Slow;
-                    }
-                    else if (MaxEmotion == "Surprise")
-                    {
-                        Mood = CategoryConstValues.Fast;
-                    }
+                List<string> genreList = MappingService.getGenreFromMood(mydic);
 
-                }
-
-                await DisplayAlert("Results are out!", emotion, MaxEmotion);
-                var Emotracks = await NapsterService.GetEmoTracks(Mood);
+                await DisplayAlert("Your mood", emotion, "OK");
+                var Emotracks = await NapsterService.GetEmoTracks(genreList.FirstOrDefault());
                 await Navigation.PushAsync(new MusicPlayer(Emotracks));
             }
             else

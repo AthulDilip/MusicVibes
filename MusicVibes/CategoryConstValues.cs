@@ -16,5 +16,8 @@ namespace MusicVibes
         public static string Acoustics = "mp.201666116";
         public static string Jazz = "mp.171796495";
         public static string Fast = "mp.193468166";
+        public static string PunkRock = "mp.223465872";
+        public static string Sad = "mp.221835117";
+        public static string Happy = "mp.175761292";
     }
 }

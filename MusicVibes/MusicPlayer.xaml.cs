@@ -51,7 +51,7 @@ namespace MusicVibes
         private async void Next_Clicked(object sender, EventArgs e)
         {
             await CrossMediaManager.Current.Stop();
-            ++trackIndex;
+            trackIndex = (trackIndex + 1) % 10;
             await CrossMediaManager.Current.Play(RandomTracks[trackIndex].PreviewURL);
         }
     }
