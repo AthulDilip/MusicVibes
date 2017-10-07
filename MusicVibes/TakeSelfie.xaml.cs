@@ -56,6 +56,7 @@ namespace MusicVibes
                 return;
             spinner.IsVisible = false;
             Shutter.Text = CheckEmotion;
+            instruction.IsVisible = false;
             MyPhoto.Source = ImageSource.FromStream(() =>
             {
                 var stream = file.GetStream();

@@ -64,25 +64,6 @@ namespace MusicVibes
             trackIndex = (trackIndex + 1) % 10;
             await CrossMediaManager.Current.Play(RandomTracks[trackIndex].PreviewURL);
         }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (object.Equals(storage, value)) return false;
-
-            storage = value;
-            OnPropertyChanged(propertyName);
-
-            return true;
-        }
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var eventHandler = PropertyChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 
 }
