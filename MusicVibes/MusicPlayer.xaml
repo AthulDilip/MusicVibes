@@ -19,7 +19,7 @@
             <StackLayout Grid.Row="3" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
                 <Image x:Name="Previous" Source="button_back" HeightRequest="40" WidthRequest="40">
                     <Image.GestureRecognizers>
-                        <TapGestureRecognizer />
+                        <TapGestureRecognizer Tapped="Prev_Clicked" NumberOfTapsRequired="1"/>
                     </Image.GestureRecognizers>
                 </Image>
                 <Image x:Name="Play" Source="button_pause" HeightRequest="90" WidthRequest="90">
