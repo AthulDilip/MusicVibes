@@ -77,7 +77,7 @@ namespace MusicVibes
 
         private async void Next_Clicked(object sender, EventArgs e)
         {
-            CrossMediaManager.Current.PlayNext();
+            await CrossMediaManager.Current.PlayNext();
         }
     }
 
