@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using MusicVibes.Model;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace MusicVibes
 {
@@ -36,6 +39,13 @@ namespace MusicVibes
             RandomTracks = tracks.OrderBy(i => rnd.Next()).ToList();
             trackIndex = 0;
             CrossMediaManager.Current.Play(RandomTracks[trackIndex].PreviewURL);
+            CrossMediaManager.Current.PlayingChanged += Current_PlayingChanged;
+        }
+
+        private void Current_PlayingChanged(object sender, Plugin.MediaManager.Abstractions.EventArguments.PlayingChangedEventArgs e)
+        {
+            MyMusicSlider.Value = e.Position.Seconds;
+            Debug.WriteLine("The position is " + e.Position.Seconds );
         }
 
         private async void Stop_Clicked(object sender, EventArgs e)
@@ -53,6 +63,25 @@ namespace MusicVibes
             await CrossMediaManager.Current.Stop();
             trackIndex = (trackIndex + 1) % 10;
             await CrossMediaManager.Current.Play(RandomTracks[trackIndex].PreviewURL);
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+
+            storage = value;
+            OnPropertyChanged(propertyName);
+
+            return true;
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var eventHandler = PropertyChanged;
+            if (eventHandler != null)
+            {
+                eventHandler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 
