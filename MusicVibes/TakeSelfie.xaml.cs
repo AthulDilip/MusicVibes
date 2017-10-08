@@ -17,6 +17,7 @@ namespace MusicVibes
         public TakeSelfie()
         {
             InitializeComponent();
+
         }
         MediaFile file;
         private async void Shutter_Clicked(object sender, EventArgs e)
@@ -46,11 +47,12 @@ namespace MusicVibes
                 return;
             spinner.IsVisible = false;
             instruction.IsVisible = false;
-            MyPhoto.Source = ImageSource.FromStream(() =>
-            {
-                var stream = file.GetStream();
-                return stream;
-            });
+            Loading.IsVisible = true;
+            //MyPhoto.Source = ImageSource.FromStream(() =>
+            //{
+            //    var stream = file.GetStream();
+            //    return stream;
+            //});
 
         }
         async public Task CheckMyEmotion()
@@ -72,8 +74,7 @@ namespace MusicVibes
             //Going to Display the result as alert, if multiple faces selecting the first major one from api
             var Face = result.FirstOrDefault();
             if (Face != null)
-            {
-                Shutter.IsVisible = false;
+            { 
                 var emotion = "Anger: " + Face.Scores.Anger.ToString("0.0")
                         + "\n Contempt:" + Face.Scores.Contempt.ToString("0.0")
                         + "\n Disgust:" + Face.Scores.Disgust.ToString("0.0")

@@ -16,9 +16,9 @@
             </Grid.RowDefinitions>
      
         <Image Source="icon" HorizontalOptions="Center" Grid.Row="0"/>
-        <Image x:Name="MyPhoto" Grid.Row="1" Aspect="AspectFit"/>
         <Label x:Name="instruction" Text="Take a selfie to find a song for your mood" FontAttributes="Bold" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center" Grid.Row="1" IsVisible="True" HorizontalOptions="Center" VerticalOptions="Center"/>
-        <Button x:Name="Shutter" Text="Take a Selfie" BorderColor="White" Grid.Row="2" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Clicked="Shutter_Clicked"/>
+            <Label x:Name="Loading" Text="Please wait while the set of songs are loaded" FontAttributes="Bold" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center" Grid.Row="1" IsVisible="False" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Button x:Name="Shutter" Margin="0,0,0,15" Text="Take a Selfie" BorderColor="White" Grid.Row="2" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Clicked="Shutter_Clicked"/>
         </Grid>
         <Grid Grid.Row="0" x:Name="spinner" IsVisible="False">
         <ActivityIndicator  IsRunning="True"  HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="45" WidthRequest="45"/>

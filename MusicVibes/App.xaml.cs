@@ -25,7 +25,11 @@ namespace MusicVibes
 
             var l = MappingService.getGenreFromMood(mydic);
 
-            MainPage = new NavigationPage(new TakeSelfie());
+            MainPage = new NavigationPage(new TakeSelfie())
+            {
+                BarBackgroundColor = Color.Black,
+                
+            };
         }
 
         protected override void OnStart()
