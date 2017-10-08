@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using Plugin.MediaManager.Abstractions.Implementations;
 using Plugin.MediaManager.Abstractions.EventArguments;
+using Plugin.MediaManager.Abstractions;
 
 namespace MusicVibes
 {
@@ -22,13 +23,14 @@ namespace MusicVibes
         private NapsterModel Emotracks;
         public List<Track> RandomTracks;
         public int trackIndex;
+        public int nextClickedCount;
 
         public MusicPlayer()
         {
             InitializeComponent();
 
         }
-
+        private IMediaManager mediaManager;
         public MusicPlayer(NapsterModel emotracks)
         {
             InitializeComponent();
@@ -36,23 +38,24 @@ namespace MusicVibes
             Emotracks = emotracks;
 
             List<Track> tracks = Emotracks.Tracks.ToList();
+            nextClickedCount = 0;
 
             var rnd = new Random();
             RandomTracks = tracks.OrderBy(i => rnd.Next()).ToList();
             trackIndex = 0;
-
+            mediaManager = CrossMediaManager.Current;
             List<MediaFile> MediaFiles = new List<MediaFile>();
-            foreach (var x in RandomTracks)                 MediaFiles.Add(new MediaFile(x.PreviewURL, Plugin.MediaManager.Abstractions.Enums.MediaFileType.Audio, Plugin.MediaManager.Abstractions.Enums.ResourceAvailability.Remote));
+            foreach (var x in RandomTracks)                 MediaFiles.Add(new MediaFile(x.PreviewURL));
 
-            CrossMediaManager.Current.Play(MediaFiles);
-            CrossMediaManager.Current.MediaFileChanged += Current_MediaFileChanged;
-            CrossMediaManager.Current.PlayingChanged += Current_PlayingChanged;
-            CrossMediaManager.Current.MediaFinished += Current_MediaFinished;
+            mediaManager.Play(MediaFiles);
+            mediaManager.MediaFileChanged += Current_MediaFileChanged;
+            mediaManager.PlayingChanged += Current_PlayingChanged;
+            mediaManager.MediaFinished += Current_MediaFinished;
         }
 
         private async void Current_MediaFinished(object sender, Plugin.MediaManager.Abstractions.EventArguments.MediaFinishedEventArgs e)
         {
-            await CrossMediaManager.Current.PlayNext();
+            await mediaManager?.PlayNext();
         }
 
         void Current_MediaFileChanged(object sender, Plugin.MediaManager.Abstractions.EventArguments.MediaFileChangedEventArgs e)         {
@@ -61,27 +64,35 @@ namespace MusicVibes
             SongName.Text = track.Name;
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            Navigation.PopAsync();
+            return true;
+        }
+
         private void Current_PlayingChanged(object sender, Plugin.MediaManager.Abstractions.EventArguments.PlayingChangedEventArgs e)
         {
             MyMusicSlider.Value = e.Position.Seconds;
         }
         bool isPlaying = true;
+
+
         private async void Stop_Clicked(object sender, EventArgs e)
         {
-            await CrossMediaManager.Current.Stop();
+            await mediaManager?.Stop();
         }
 
         private async void Play_Clicked(object sender, EventArgs e)
         {
             if (isPlaying)
             {
-                await CrossMediaManager.Current.Pause();
+                await mediaManager?.Pause();
                 Play.Source = "button_play";
                 isPlaying = false;
             }
             else
             {
-                await CrossMediaManager.Current.Play();
+                await mediaManager?.Play();
                 Play.Source = "button_pause";
                 isPlaying = true;
             }
@@ -90,12 +101,51 @@ namespace MusicVibes
 
         private async void Next_Clicked(object sender, EventArgs e)
         {
-            await CrossMediaManager.Current.PlayNext();
+            if (mediaManager.AudioPlayer.Position.Seconds < 10)
+            {
+                if (nextClickedCount >= 3)
+                {
+
+                    nextClickedCount = 0;
+                    GlobalConstValue.gGenreIndex = (GlobalConstValue.gGenreIndex + 1) % GlobalConstValue.gGenreList.Count();
+                    string newGenre = GlobalConstValue.gGenreList[GlobalConstValue.gGenreIndex];
+
+                    var newTracks = await NapsterService.GetEmoTracks(newGenre);
+
+                    await mediaManager?.Stop();
+
+                    List<Track> tracks = newTracks.Tracks.ToList();
+
+                    var rnd = new Random();
+                    RandomTracks = tracks.OrderBy(i => rnd.Next()).ToList();
+                    trackIndex = 0;
+                    mediaManager = CrossMediaManager.Current;
+                    List<MediaFile> MediaFiles = new List<MediaFile>();
+                    foreach (var x in RandomTracks)
+                        MediaFiles.Add(new MediaFile(x.PreviewURL));
+
+                    await AzureServices.InsertSkip("2", GlobalConstValue.gMood, newGenre);
+
+                    await mediaManager.Play(MediaFiles);
+
+                }
+                else
+                {
+                    ++nextClickedCount;
+                    await mediaManager?.PlayNext();
+                }
+
+            }
+            else
+            {
+                await mediaManager?.PlayNext();
+            }
+
         }
 
         private async void Prev_Clicked(object sender, EventArgs e)
         {
-            await CrossMediaManager.Current.PlayPrevious();
+            await mediaManager?.PlayPrevious();
         }
     }
 

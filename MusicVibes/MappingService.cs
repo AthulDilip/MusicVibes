@@ -19,6 +19,8 @@ namespace MusicVibes
 
             string maxKey = moodDict.Where(x => x.Value.Equals(maxVal)).FirstOrDefault().Key;
 
+            GlobalConstValue.gMood = maxKey;
+
             if (maxKey != null)
             {
                 if (maxKey == "Anger")

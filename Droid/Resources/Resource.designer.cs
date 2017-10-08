@@ -26,6 +26,8 @@ namespace MusicVibes.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::PCLCrypto.Resource.String.ApplicationName = global::MusicVibes.Droid.Resource.String.ApplicationName;
+			global::PCLCrypto.Resource.String.Hello = global::MusicVibes.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::MusicVibes.Droid.Resource.Attribute.actionBarSize;
 		}
 		
@@ -3639,6 +3641,12 @@ namespace MusicVibes.Droid
 		
 		public partial class String
 		{
+			
+			// aapt resource value: 0x7f0a003f
+			public const int ApplicationName = 2131361855;
+			
+			// aapt resource value: 0x7f0a003e
+			public const int Hello = 2131361854;
 			
 			// aapt resource value: 0x7f0a0015
 			public const int abc_action_bar_home_description = 2131361813;

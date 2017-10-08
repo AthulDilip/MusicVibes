@@ -23,7 +23,7 @@ namespace MusicVibes
         private async void Shutter_Clicked(object sender, EventArgs e)
         {
             await TakeMyPhoto();
-            await CheckMyEmotion();              
+            await CheckMyEmotion();
         }
         async public Task TakeMyPhoto()
         {
@@ -74,7 +74,7 @@ namespace MusicVibes
             //Going to Display the result as alert, if multiple faces selecting the first major one from api
             var Face = result.FirstOrDefault();
             if (Face != null)
-            { 
+            {
                 var emotion = "Anger: " + Face.Scores.Anger.ToString("0.0")
                         + "\n Contempt:" + Face.Scores.Contempt.ToString("0.0")
                         + "\n Disgust:" + Face.Scores.Disgust.ToString("0.0")
@@ -96,7 +96,10 @@ namespace MusicVibes
 
                 List<string> genreList = MappingService.getGenreFromMood(mydic);
 
-               // await DisplayAlert("Your mood", emotion, "OK");
+                GlobalConstValue.gGenreList = genreList;
+                GlobalConstValue.gGenreIndex = 0;
+
+                // await DisplayAlert("Your mood", emotion, "OK");
                 var Emotracks = await NapsterService.GetEmoTracks(genreList.FirstOrDefault());
                 await Navigation.PushAsync(new MusicPlayer(Emotracks));
             }

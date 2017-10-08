@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Microsoft.WindowsAzure.MobileServices;
 using UIKit;
 
 namespace MusicVibes.iOS
@@ -13,7 +14,7 @@ namespace MusicVibes.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-
+            CurrentPlatform.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
