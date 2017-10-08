@@ -57,7 +57,7 @@ namespace MusicVibes
 
         void Current_MediaFileChanged(object sender, Plugin.MediaManager.Abstractions.EventArguments.MediaFileChangedEventArgs e)         {
             var track = RandomTracks.Where(x => x.PreviewURL.Equals(e.File.Url)).FirstOrDefault();
-            AlbumImage.Source = "http://direct.rhapsody.com/imageserver/v2/albums/"+track.AlbumId+"/images/600x600.jpg";
+            AlbumImage.Source = "http://direct.rhapsody.com/imageserver/v2/albums/" + track.AlbumId + "/images/600x600.jpg";
             SongName.Text = track.Name;
         }
 
@@ -91,6 +91,11 @@ namespace MusicVibes
         private async void Next_Clicked(object sender, EventArgs e)
         {
             await CrossMediaManager.Current.PlayNext();
+        }
+
+        private async void Prev_Clicked(object sender, EventArgs e)
+        {
+            await CrossMediaManager.Current.PlayPrevious();
         }
     }
 
