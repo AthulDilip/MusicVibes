@@ -18,28 +18,27 @@ namespace MusicVibes
 
         async public static Task<NapsterModel> GetEmoTracks(string emotion)
         {
-            
-                var client = new System.Net.Http.HttpClient();
-                var response = await client.GetAsync("http://api.napster.com/v2.2/playlists/"+emotion+"/tracks?apikey=YTkxZTRhNzAtODdlNy00ZjMzLTg0MWItOTc0NmZmNjU4Yzk4&limit=10");
-                string NapsterJson = await response.Content.ReadAsStringAsync();
-                NapsterModel napster = new NapsterModel();
-                if (NapsterJson != "")
-                {
-                    //Converting JSON Array Objects into generic list  
-                    napster = JsonConvert.DeserializeObject<NapsterModel>(NapsterJson);
-                }
-                //Binding listview with server response    
-                return napster;
-           
-        }  
-            
+
+            var client = new System.Net.Http.HttpClient();
+            var response = await client.GetAsync("http://api.napster.com/v2.2/playlists/" + emotion + "/tracks?apikey=YTkxZTRhNzAtODdlNy00ZjMzLTg0MWItOTc0NmZmNjU4Yzk4&limit=10");
+            string NapsterJson = await response.Content.ReadAsStringAsync();
+            if (!string.IsNullOrWhiteSpace(NapsterJson))
+            {
+                //Converting JSON Array Objects into generic list  
+                return JsonConvert.DeserializeObject<NapsterModel>(NapsterJson);
+            }
+            //Binding listview with server response    
+            return null;
+
+        }
+
     }
 }
 
 
 
-   
-    
 
-    
+
+
+
 

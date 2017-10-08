@@ -45,9 +45,6 @@ namespace MusicVibes
             });
             if (file == null)
                 return;
-            spinner.IsVisible = false;
-            instruction.IsVisible = false;
-            Loading.IsVisible = true;
             //MyPhoto.Source = ImageSource.FromStream(() =>
             //{
             //    var stream = file.GetStream();
@@ -57,6 +54,9 @@ namespace MusicVibes
         }
         async public Task CheckMyEmotion()
         {
+            spinner.IsVisible = false;
+            instruction.IsVisible = false;
+            Loading.IsVisible = true;
             if (file == null)
             {
                 await DisplayAlert("Error", "No Image Taken", "Ok");
@@ -99,9 +99,16 @@ namespace MusicVibes
                 GlobalConstValue.gGenreList = genreList;
                 GlobalConstValue.gGenreIndex = 0;
 
-                // await DisplayAlert("Your mood", emotion, "OK");
+                // await DisplayAlert("Your mood", emotion, "OK");  
                 var Emotracks = await NapsterService.GetEmoTracks(genreList.FirstOrDefault());
-                await Navigation.PushAsync(new MusicPlayer(Emotracks));
+                if (Emotracks != null)
+                {
+                    await Navigation.PushAsync(new MusicPlayer(Emotracks));
+                }
+                else
+                {
+                    await DisplayAlert("Oops", "No Suitable Music Found", "OK");
+                }
             }
             else
             {

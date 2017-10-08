@@ -22,7 +22,6 @@ namespace MusicVibes
     {
         private NapsterModel Emotracks;
         public List<Track> RandomTracks;
-        public int trackIndex;
         public int nextClickedCount;
 
         public MusicPlayer()
@@ -34,16 +33,14 @@ namespace MusicVibes
         public MusicPlayer(NapsterModel emotracks)
         {
             InitializeComponent();
-
             Emotracks = emotracks;
-
             List<Track> tracks = Emotracks.Tracks.ToList();
             nextClickedCount = 0;
-
             var rnd = new Random();
+            RandomTracks?.Clear();
             RandomTracks = tracks.OrderBy(i => rnd.Next()).ToList();
-            trackIndex = 0;
             mediaManager = CrossMediaManager.Current;
+            mediaManager.MediaQueue.Clear();
             List<MediaFile> MediaFiles = new List<MediaFile>();
             foreach (var x in RandomTracks)                 MediaFiles.Add(new MediaFile(x.PreviewURL));
 
@@ -118,7 +115,6 @@ namespace MusicVibes
 
                     var rnd = new Random();
                     RandomTracks = tracks.OrderBy(i => rnd.Next()).ToList();
-                    trackIndex = 0;
                     mediaManager = CrossMediaManager.Current;
                     List<MediaFile> MediaFiles = new List<MediaFile>();
                     foreach (var x in RandomTracks)
